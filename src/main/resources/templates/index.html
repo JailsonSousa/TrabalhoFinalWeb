@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+<title>Delicias de Quixadá</title>
+
+<!-- CSS -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,600" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+	crossorigin="anonymous" />
+<link rel="stylesheet" href="css/animate.css" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/media-queries.css" />
+<link rel="stylesheet" href="css/carousel.css" />
+<link rel="stylesheet" href="/css/jumbotron.css" />
+</head>
+
+<body>
+	<!-- Top menu -->
+	<nav class="navbar navbar-dark fixed-top navbar-expand-md">
+		<div class="container">
+			<a class="navbar-brand" href="/">Delicias de Quixadá</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNav" aria-controls="navbarNav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li sec:authorize="hasRole('ROLE_GERENTE')" class="nav-item">
+						<a class="nav-link" href="/gerenciar/listarPratos">Gerenciar
+							de Pratos</a>
+					</li>
+					<li sec:authorize="hasRole('ROLE_USER')" class="nav-item"><a
+						class="nav-link" href="#">Histórico de pedidos</a></li>
+					<li sec:authorize="hasRole('ROLE_USER')" class="nav-item"><a
+						class="nav-link" href="#">Meu Pedido</a></li>
+					<li sec:authorize="hasAnyRole('ROLE_USER','ROLE_GERENTE')" class="nav-item"><a
+						class="nav-link" href="/logout">Sair</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="jumbotron">
+		<h1 class="display-1">Delicias de Quixadá</h1>
+		<p>Seja bem vindo ao cardápio online do restaurante delicicias de
+			quixadá.</p>
+		<a class="btn btn-danger btn-lg"
+			href="/cliente/formulario/cadastrarCliente"> Cadastre-se &raquo;
+		</a> <a class="btn btn-success btn-lg ml-5" href="/login"> Fazer Login
+			&raquo; </a>
+	</div>
+	<div class="modal fade" id="cadastroCliente">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Cadastrar novo cliente</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Fechar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-row">
+							<div class="col-md-12 text-left">
+								<label for="inputNome">Nome completo</label> <input type="text"
+									class="form-control" id="inputNome"
+									placeholder="Informe seu nome completo..." />
+							</div>
+							<div class="form-group col-md-7 text-left">
+								<label for="inputDataNascimento">Data de Nascimento</label> <input
+									type="date" class="form-control" id="inputDataNascimento" />
+							</div>
+							<div class="form-group col-md-5 text-left">
+								<label for="inputCPF">CPF</label> <input type="text"
+									class="form-control" id="inputCPF" placeholder="000.000.000-00" />
+							</div>
+							<div class="form-group col-md-7 text-left">
+								<label for="inputEmail">Email</label> <input type="email"
+									class="form-control" id="inputEmail"
+									placeholder="email@exemplo.com" />
+							</div>
+							<div class="form-group col-md-5 text-left">
+								<label for="inputSenha">Senha</label> <input type="password"
+									class="form-control" id="inputSenha"
+									placeholder="Informe uma senha..." />
+							</div>
+						</div>
+						<div class="text-left">
+							<label for="inputEndereco">Endereço</label> <input type="text"
+								class="form-control" id="inputEndereco"
+								placeholder="Informe o seu endereço completo com bairro..." />
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal">
+						Cadastrar</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">
+						Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="acessarCadastro">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Acessar minha conta</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Fechar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group row">
+							<label for="email" class="col-sm-2 col-form-label">Email</label>
+							<div class="col-sm-10">
+								<input type="email" class="form-control" id="mail"
+									placeholder="email@exemplo.com.br" />
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="senha" class="col-sm-2 col-form-label">Senha</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="senha"
+									placeholder="Informe sua senha..." />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal">
+						Fazer Login</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">
+						Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="section-1-container section-container">
+		<div class="container">
+			<div class="row">
+				<h1 class="text-left my-3">Pratos do dia</h1>
+				<div class="container-fluid">
+					<div id="carousel-example" class="carousel slide"
+						data-ride="carousel">
+						<div class="carousel-inner row w-100 mx-auto" role="listbox">
+							<div th:each="prato: ${listaPratos}"
+								class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
+								<div class="card text-center">
+									<img src="/images/prato1.jpg" alt="prato1" class="card-img-top" />
+									<div class="card-body">
+										<h4 class="card-subtitle" th:text="${prato.valor}"></h4>
+										<h6 class="card-title text-muted" th:text="${prato.nome}"></h6>
+										<a sec:authorize="hasRole('ROLE_USER')" href="#"
+											class="btn btn-success">Adicionar ao carrinho</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#carousel-example"
+							role="button" data-slide="prev"> <span
+							class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+							class="sr-only">Anterior</span>
+						</a> <a class="carousel-control-next" href="#carousel-example"
+							role="button" data-slide="next"> <span
+							class="carousel-control-next-icon" aria-hidden="true"></span> <span
+							class="sr-only">Proximo</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Footer -->
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<p>&copy; Jailson de Sousa bastos - Matricula 402977</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Javascript -->
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/jquery-migrate-3.0.0.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+		crossorigin="anonymous"></script>
+	<script src="js/jquery.backstretch.min.js"></script>
+	<script src="js/wow.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>
